@@ -434,7 +434,7 @@ contract Bellascoin is ERC20, Ownable {
         require(newTotalFees <= 8 ,"BELLAS: Total fees must be lower than 8%");
         require(newCexFee + newMarketingFee + newDevFee <= 6, "BELLAS: Dev fee + Cex fee + Marketing fee must be lower than 6%");
         // Swap and distribute now, because the distribution will change
-        require(!_inSwapAndLiquify, "Contract is already swapping");
+        require(!_inSwapAndLiquify, "BELLAS: Contract is already swapping");
         _swapAndDistribute(balanceOf(address(this)));
         devFee = newDevFee;
         cexFee = newCexFee;
@@ -451,7 +451,7 @@ contract Bellascoin is ERC20, Ownable {
     }
 
     function setSwapThreshold(uint256 amount) external onlyOwner {
-        require(amount <= totalSupply()/1000/10**18, "LSI: Amount must be lower than 1% of the total supply");
+        require(amount <= totalSupply()/1000/10**18, "BELLAS: Amount must be lower than 1% of the total supply");
         swapThreshold = amount *10**18;
         emit SwapThresholdUpdated(swapThreshold);
     }
@@ -585,10 +585,10 @@ contract Bellascoin is ERC20, Ownable {
     }
 
     function swapAndDistribute(uint256 amount) public onlyOwner {        
-        require(!_inSwapAndLiquify, "Contract is already swapping");
-        require(amount > 0, "Amount must be greater than 0");
+        require(!_inSwapAndLiquify, "BELLAS: Contract is already swapping");
+        require(amount > 0, "BELLAS: Amount must be greater than 0");
         uint256 contractTokenBalance = balanceOf(address(this));
-        require(contractTokenBalance >= amount, "Not enough tokens to swap");
+        require(contractTokenBalance >= amount, "BELLAS: Not enough tokens to swap");
         _swapAndDistribute(amount);
         
     } 
